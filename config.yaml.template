@@ -6,7 +6,7 @@ common:
 
 
 # 推送信息配置
-pushnotice:
+push_notice:
   - server:
       enable: 0
       key:
@@ -18,5 +18,7 @@ scripts:
   # www.icc2022.com
   - icc2022:
       enable: 0
-      username: xxxxx
-      password: xxxxx
+      confs:
+        - username: xxxxx
+          password: xxxxx
+

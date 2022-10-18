@@ -1,11 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
-import yaml
 """
 程序入口文件
 """
+
+import os
+
+import yaml
+
+from lib.logger import logger
 
 CONFIG_FILE_PATH = './config.yaml'
 PUSH_SERVER_HANDLERS = []
@@ -25,10 +29,15 @@ if __name__ == '__main__':
         for script in content['scripts']:
             script_name, script_config = list(script.keys())[0], list(script.values())[0]
             if script_config['enable']:
-                pass
-
+                # 动态加载方法
+                _run = __import__(f'scripts.{script_name}', fromlist=[script_name])
+                # 遍历账号配置
+                for conf in script_config['confs']:
+                    logger.info(_run.__doc__)
+                    result = _run.run(**conf)
+                    logger.info(f'{script_name}:{conf}:{result}')
         # 推送信息配置
-        for push_service in content['pushnotice']:
+        for push_service in content['push_notice']:
             push_service_name, push_service_config = list(push_service.keys())[0], list(push_service.values())[0]
             if push_service_config['enable']:
                 # todo: 加载推送信息进队列

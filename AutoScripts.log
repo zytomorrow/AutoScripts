@@ -1,0 +1,12 @@
+2022-10-18 14:33:06.540 | INFO     | - icc2022:{'username': 'zytomorrow', 'password': 'Zy950722'}:2022-10-18 14:33:06签到成功
+2022-10-18 14:33:39.155 | INFO     | - icc2022:{'username': 'zytomorrow', 'password': 'Zy950722'}:2022-10-18 14:33:39签到成功
+2022-10-18 14:55:07.760 | INFO     | - 
+PT站www.icc2022.com每日登录
+
+2022-10-18 14:55:07.839 | ERROR    | - HTTPSConnectionPool(host='www.icc2022.com', port=443): Max retries exceeded with url: /login.php (Caused by ProxyError('Cannot connect to proxy.', FileNotFoundError(2, 'No such file or directory')))
+2022-10-18 14:55:07.848 | ERROR    | - HTTPSConnectionPool(host='www.icc2022.com', port=443): Max retries exceeded with url: /login.php (Caused by ProxyError('Cannot connect to proxy.', FileNotFoundError(2, 'No such file or directory')))
+2022-10-18 14:55:07.858 | ERROR    | - HTTPSConnectionPool(host='www.icc2022.com', port=443): Max retries exceeded with url: /login.php (Caused by ProxyError('Cannot connect to proxy.', FileNotFoundError(2, 'No such file or directory')))
+2022-10-18 14:55:15.410 | INFO     | - 
+PT站www.icc2022.com每日登录
+
+2022-10-18 14:55:20.303 | INFO     | - icc2022:{'username': 'zytomorrow', 'password': 'Zy950722'}:2022-10-18 14:55:20签到成功

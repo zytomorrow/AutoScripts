@@ -5,30 +5,46 @@
 PT站www.icc2022.com每日登录
 """
 
+import re
+import time
+
 from lib.apiHandler import ApiHandle
-from pyquery import PyQuery as pq
+from lib.ocr import OCR
 
 
-def run(username, passwd):
+def run(username, password):
     # 初始化session
     api_handler = ApiHandle()
-    # 初始化网页
-    login_page_code = api_handler.get_url('https://www.icc2022.com/login.php').text
-    # 获取验证码图片地址
-    doc = pq(login_page_code)
-    print(doc('#nav_block > form:nth-child(4) > table > tbody > tr:nth-child(4) > td:nth-child(2) > img'))
+    ocr_handler = OCR()
+    for i in range(10):
+        # 初始化网页
+        login_page_code = api_handler.get_url('https://www.icc2022.com/login.php').text
+        # 获取imghash
+        img_hash = re.findall('<input type="hidden" name="imagehash" value="(.*?)"', login_page_code)[0]
+        img_url = f'https://www.icc2022.com/image.php?action=regimage&imagehash={img_hash}&secret='
+        # 请求图片
+        img_content = api_handler.get_url(img_url).content
+        # ocr识别
+        verify_code = ocr_handler.ocr(img_content)
+        # 执行登录
+        login_status = api_handler.post_url('https://www.icc2022.com/takelogin.php',
+                                            data={
+                                                'secret': '',
+                                                'username': username,
+                                                'password': password,
+                                                'two_step_code': '',
+                                                'imagestring': verify_code,
+                                                'imagehash': img_hash
+                                            })
+        if login_status.status_code == 200:
+            # 执行签到操作
+            attendance_response = api_handler.get_url('https://www.icc2022.com/attendance.php')
+            if attendance_response.status_code == 200:
+                msg = f'{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) }签到成功'
+            else:
+                msg = '签到失败'
+            break
+        else:
+            msg = '登录失败'
 
-    # 获取
-
-#
-# class Client(object):
-#     def __init__(self, username, password):
-#         self.username = username
-#         self.password = password
-#         self.api_handle = ApiHandle()
-#
-#     def init_login_page(self):
-#         self.api_handle.ge
-
-if __name__ == '__main__':
-    run(111, 111)
+    return msg

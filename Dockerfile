@@ -18,6 +18,6 @@ RUN \
     git clone -b ${usebranche} ${usesource}; \
     cp -r /app/AutoScripts/* /app; \
     rm -rf AutoScripts/; \
-    pip install -r requirements.txt \
+    pip install -r requirements.txt 
 
 ENTRYPOINT ["/bin/bash", "./start.sh"]

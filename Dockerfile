@@ -14,7 +14,7 @@ RUN \
     apt-get install -y git cron; \
     apt-get clean; \
     git clone  --depth 1  -b ${usebranche} ${usesource}; \
-    mv -r /app/AutoScripts/* /app; \
+    cp -r /app/AutoScripts/* /app; \
     rm -rf AutoScripts/; \
     pip install -r requirements.txt
 

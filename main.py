@@ -33,15 +33,15 @@ if __name__ == '__main__':
                 _run = __import__(f'scripts.{script_name}', fromlist=[script_name])
                 # 遍历账号配置
                 for conf in script_config['confs']:
-                    logger.info(f'{script_name}:{_run.__doc__}:{conf}')
+                    logger.info(f'{script_name}:{_run.__doc__}{conf}')
                     # 进行重试
                     for _ in range(3):
                         try:
                             result = _run.run(**conf)
-                            logger.info(f'{script_name}:{conf}:{result}')
+                            logger.info(f'{result}')
                             break
                         except BaseException as err:
-                            logger.error(f'{script_name}:{conf}:{err}')
+                            logger.error(f'{err}')
 
         # 推送信息配置
         for push_service in content['push_notice']:

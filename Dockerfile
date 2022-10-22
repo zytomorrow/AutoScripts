@@ -1,4 +1,4 @@
-FROM python:3.8.13-slim
+FROM python:3.9.10-slim
 ARG usesource="https://github.com/zytomorrow/AutoScripts.git"
 ARG usebranche="dev"
 
@@ -18,6 +18,6 @@ RUN \
     git clone -b ${usebranche} ${usesource}; \
     cp -r /app/AutoScripts/* /app; \
     rm -rf AutoScripts/; \
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
 
 ENTRYPOINT ["/bin/bash", "./start.sh"]

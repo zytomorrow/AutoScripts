@@ -5,3 +5,5 @@
 # 已支持网站
 
 - [x] www.icc2022.com PT站
+- [x] hdtime.org PT站
+- [x] srvfi.top站

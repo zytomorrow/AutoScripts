@@ -1,0 +1,39 @@
+# 配置文件
+
+# 通用配置
+common:
+  multirun: 1
+
+
+# 推送信息配置
+push_notice:
+  - server:
+      enable: 0
+      key:
+  - wecan:
+      enable: 0
+
+# 执行脚本配置
+scripts:
+  # www.icc2022.com
+  - icc2022:
+      enable: 0
+      confs:
+        - username: xxxxx
+          password: xxxxx
+  - srvfi:
+      enable: 0
+      confs:
+        - username: xxxxx
+          password: xxxxx
+  - 3evils:
+      enable: 0
+      confs:
+        - username: xxxxx
+          password: xxxxx
+  - hdtime:
+      enable: 0
+      confs:
+        - username: xxxxx
+          password: xxxxx
+

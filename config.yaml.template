@@ -21,4 +21,9 @@ scripts:
       confs:
         - username: xxxxx
           password: xxxxx
+  - srvfi:
+      enable: 0
+      confs:
+        - username: xxxxx
+          password: xxxxx
 

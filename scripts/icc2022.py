@@ -8,7 +8,10 @@ PT站www.icc2022.com每日登录
 import re
 import time
 
+from bs4 import BeautifulSoup
+
 from lib.apiHandler import ApiHandle
+from lib.logger import logger
 from lib.ocr import OCR
 
 
@@ -17,6 +20,7 @@ def run(username, password):
     api_handler = ApiHandle()
     ocr_handler = OCR()
     for i in range(10):
+        logger.info(f'尝试第{i+1}次登录')
         # 初始化网页
         login_page_code = api_handler.get_url('https://www.icc2022.com/login.php').text
         # 获取imghash
@@ -27,7 +31,7 @@ def run(username, password):
         # ocr识别
         verify_code = ocr_handler.ocr(img_content)
         # 执行登录
-        login_status = api_handler.post_url('https://www.icc2022.com/takelogin.php',
+        login_response = api_handler.post_url('https://www.icc2022.com/takelogin.php',
                                             data={
                                                 'secret': '',
                                                 'username': username,
@@ -36,15 +40,13 @@ def run(username, password):
                                                 'imagestring': verify_code,
                                                 'imagehash': img_hash
                                             })
-        if login_status.status_code == 200:
+        if login_response.url.split('/')[-1] == 'index.php':
             # 执行签到操作
-            attendance_response = api_handler.get_url('https://www.icc2022.com/attendance.php')
-            if attendance_response.status_code == 200:
-                msg = f'{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) }签到成功'
-            else:
-                msg = '签到失败'
-            break
+            logger.info('执行签到...')
+            api_handler.get_url('https://www.icc2022.com/attendance.php')
+            # 获取当前信息
+            doc = BeautifulSoup(login_response.content.decode(), "html.parser")
+            basic_info = doc.findAll('span')[0].text.replace('\n', '').split('[收藏]                ')[-1].replace('                ', '')
+            return basic_info
         else:
-            msg = '登录失败'
-
-    return msg
+            logger.info(f'{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}登录失败,重新登录')

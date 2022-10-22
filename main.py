@@ -34,8 +34,15 @@ if __name__ == '__main__':
                 # 遍历账号配置
                 for conf in script_config['confs']:
                     logger.info(_run.__doc__)
-                    result = _run.run(**conf)
-                    logger.info(f'{script_name}:{conf}:{result}')
+                    # 进行重试
+                    for _ in range(3):
+                        try:
+                            result = _run.run(**conf)
+                            logger.info(f'{script_name}:{conf}:{result}')
+                            break
+                        except BaseException as err:
+                            logger.error(f'{script_name}:{conf}:{err}')
+
         # 推送信息配置
         for push_service in content['push_notice']:
             push_service_name, push_service_config = list(push_service.keys())[0], list(push_service.values())[0]

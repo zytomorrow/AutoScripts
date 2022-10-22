@@ -1,4 +1,4 @@
-FROM python:3.9.10-slim
+FROM python:3.8.13-slim
 ARG usesource="https://github.com/zytomorrow/AutoScripts.git"
 ARG usebranche="dev"
 

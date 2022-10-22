@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 _run = __import__(f'scripts.{script_name}', fromlist=[script_name])
                 # 遍历账号配置
                 for conf in script_config['confs']:
-                    logger.info(_run.__doc__)
+                    logger.info(f'{script_name}:{_run.__doc__}:{conf}')
                     # 进行重试
                     for _ in range(3):
                         try:

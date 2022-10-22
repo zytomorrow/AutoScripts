@@ -1,10 +1,23 @@
-FROM gcr.io/distroless/python3
+FROM python:3.8.13-slim
+ARG usesource="https://github.com/zytomorrow/AutoScripts.git"
+ARG usebranche="dev"
+
+ENV pullbranche=${usebranche}
+ENV Sourcepath=${usesource}
+ENV TZ=Asia/Shanghai
+ENV CRONTIME="30 9 * * *"
+
+RUN \
+    apt-get update; \
+    apt-get install -y git cron; \
+    apt-get clean
 
 WORKDIR /app
 
 RUN \
+    git clone -b ${usebranche} ${usesource}; \
+    cp -r /app/AutoScripts/* /app; \
+    rm -rf AutoScripts/; \
     pip install -r requirements.txt \
 
-COPY --from=docker-minifier /app /app
-
-CMD ["python", "main.py"]
+ENTRYPOINT ["/bin/bash", "./start.sh"]
